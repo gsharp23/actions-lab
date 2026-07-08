@@ -49,3 +49,14 @@ jobs:
       - name: Use Environment Variable
         run: |
           echo "Value: $MY_VALUE"
+
+      - name: Set Step Output
+        id: step1
+        run: |
+          echo "message=Hello from step 1" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date)" >> $GITHUB_OUTPUT
+
+      - name: Use Step Output
+        run: |
+          echo "Message: ${{ steps.step1.outputs.message }}"
+          echo "Timestamp: ${{ steps.step1.outputs.timestamp }}"
