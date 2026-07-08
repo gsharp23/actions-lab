@@ -1,3 +1,5 @@
+
+
 ---
 name: Echo Workflow
 on:
@@ -60,3 +62,20 @@ jobs:
         run: |
           echo "Message: ${{ steps.step1.outputs.message }}"
           echo "Timestamp: ${{ steps.step1.outputs.timestamp }}"
+
+  output-job:
+    runs-on: ubuntu-latest
+    outputs:
+      job_message: ${{ steps.set-output.outputs.message }}
+    steps:
+      - name: Set Output
+        id: set-output
+        run: echo "message=Hello from job" >> $GITHUB_OUTPUT
+
+  input-job:
+    needs: output-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Output
+        run: |
+          echo "${{ needs.output-job.outputs.job_message }}"
