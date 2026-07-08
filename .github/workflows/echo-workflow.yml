@@ -47,4 +47,5 @@ jobs:
         run: echo "MY_VALUE=test123" >> $GITHUB_ENV
 
       - name: Use Environment Variable
-        run: echo "Value: $MY_VALUE"
+        run: |
+          echo "Value: $MY_VALUE"
