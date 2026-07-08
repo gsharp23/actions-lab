@@ -79,3 +79,25 @@ jobs:
       - name: Use Output
         run: |
           echo "${{ needs.output-job.outputs.job_message }}"
+
+  commit-job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Make Changes
+        run: |
+          echo "New content" >> workflow-output.txt
+          git add workflow-output.txt
+          git commit -m "Update workflow output [skip ci]" || echo "No changes to commit"
+          git push origin HEAD
